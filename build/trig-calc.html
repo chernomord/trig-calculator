@@ -3,6 +3,11 @@
 <head>
     <title>Trigonometric Calculator</title>
     <style>
+        @keyframes flash {
+            0% {background-color: #fff;}
+            50% {background-color: #007BFF; color: #fff;}
+            100% {background-color: #fff;}
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -57,7 +62,7 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            cursor: pointer; /* Add cursor pointer to result paragraphs */
+            cursor: pointer;
         }
         /* Style for the copied message */
         #copied-message {
@@ -109,23 +114,28 @@
         let atanVal = Math.atan(num);
 
         document.getElementById('result').innerHTML = `
-                <p onclick="copyToClipboard('${sinVal}')">Sine: ${sinVal}</p>
-                <p onclick="copyToClipboard('${cosVal}')">Cosine: ${cosVal}</p>
-                <p onclick="copyToClipboard('${tanVal}')">Tangent: ${tanVal}</p>
-                <p onclick="copyToClipboard('${asinVal}')">Arc Sine: ${asinVal}</p>
-                <p onclick="copyToClipboard('${acosVal}')">Arc Cosine: ${acosVal}</p>
-                <p onclick="copyToClipboard('${atanVal}')">Arc Tangent: ${atanVal}</p>
+                <p onclick="copyToClipboard('${sinVal}', this)">Sine: ${sinVal}</p>
+                <p onclick="copyToClipboard('${cosVal}', this)">Cosine: ${cosVal}</p>
+                <p onclick="copyToClipboard('${tanVal}', this)">Tangent: ${tanVal}</p>
+                <p onclick="copyToClipboard('${asinVal}', this)">Arc Sine: ${asinVal}</p>
+                <p onclick="copyToClipboard('${acosVal}', this)">Arc Cosine: ${acosVal}</p>
+                <p onclick="copyToClipboard('${atanVal}', this)">Arc Tangent: ${atanVal}</p>
             `;
     }
 
-    // Function to copy text to clipboard and show copied message
-    function copyToClipboard(text) {
+    // Function to copy text to clipboard, show copied message and animate result block
+    function copyToClipboard(text, element) {
         navigator.clipboard.writeText(text).then(function() {
             let copiedMessage = document.getElementById('copied-message');
             copiedMessage.style.display = 'block';
             setTimeout(function() {
                 copiedMessage.style.display = 'none';
             }, 2000);
+            // Start the flash animation on the result block
+            element.style.animation = 'flash 1s';
+            setTimeout(function() {
+                element.style.animation = '';
+            }, 1000);
         }, function(err) {
             console.error('Could not copy text: ', err);
         });
