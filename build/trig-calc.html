@@ -110,6 +110,11 @@
 <div id="copied-message">Copied to clipboard!</div>
 
 <script>
+    document.getElementById('calcForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        calculate();
+    });
+
     function calculate() {
         let num = document.getElementById('number').value;
 
