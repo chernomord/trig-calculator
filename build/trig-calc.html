@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trigonometric Calculator</title>
+</head>
+<body>
+<h1>Trigonometric Calculator</h1>
+<form id="calcForm">
+    <label for="number">Input a number (fraction or decimal):</label><br>
+    <input type="text" id="number" name="number"><br>
+    <input type="button" value="Calculate" onclick="calculate()">
+</form>
+<div id="result"></div>
+
+<script>
+    function calculate() {
+        let num = document.getElementById('number').value;
+
+        // Check if input is a fraction
+        if (num.includes('/')) {
+            let fractionParts = num.split('/');
+            num = parseFloat(fractionParts[0]) / parseFloat(fractionParts[1]);
+        } else {
+            num = parseFloat(num);
+        }
+
+        if (isNaN(num)) {
+            document.getElementById('result').innerHTML = "Invalid input. Please input a number or a fraction.";
+            return;
+        }
+
+        let sinVal = Math.sin(num);
+        let cosVal = Math.cos(num);
+        let tanVal = Math.tan(num);
+        let asinVal = Math.asin(num);
+        let acosVal = Math.acos(num);
+        let atanVal = Math.atan(num);
+
+        document.getElementById('result').innerHTML = `
+                <p>Sine: ${sinVal}</p>
+                <p>Cosine: ${cosVal}</p>
+                <p>Tangent: ${tanVal}</p>
+                <p>Arc Sine: ${asinVal}</p>
+                <p>Arc Cosine: ${acosVal}</p>
+                <p>Arc Tangent: ${atanVal}</p>
+            `;
+    }
+</script>
+</body>
+</html>
