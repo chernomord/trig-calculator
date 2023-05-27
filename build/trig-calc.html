@@ -57,6 +57,19 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer; /* Add cursor pointer to result paragraphs */
+        }
+        /* Style for the copied message */
+        #copied-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
         }
     </style>
 </head>
@@ -69,6 +82,8 @@
     </form>
     <div id="result"></div>
 </div>
+<!-- Add an element for the copied message -->
+<div id="copied-message">Copied to clipboard!</div>
 
 <script>
     function calculate() {
@@ -94,13 +109,26 @@
         let atanVal = Math.atan(num);
 
         document.getElementById('result').innerHTML = `
-                <p>Sine: ${sinVal}</p>
-                <p>Cosine: ${cosVal}</p>
-                <p>Tangent: ${tanVal}</p>
-                <p>Arc Sine: ${asinVal}</p>
-                <p>Arc Cosine: ${acosVal}</p>
-                <p>Arc Tangent: ${atanVal}</p>
+                <p onclick="copyToClipboard('${sinVal}')">Sine: ${sinVal}</p>
+                <p onclick="copyToClipboard('${cosVal}')">Cosine: ${cosVal}</p>
+                <p onclick="copyToClipboard('${tanVal}')">Tangent: ${tanVal}</p>
+                <p onclick="copyToClipboard('${asinVal}')">Arc Sine: ${asinVal}</p>
+                <p onclick="copyToClipboard('${acosVal}')">Arc Cosine: ${acosVal}</p>
+                <p onclick="copyToClipboard('${atanVal}')">Arc Tangent: ${atanVal}</p>
             `;
+    }
+
+    // Function to copy text to clipboard and show copied message
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            let copiedMessage = document.getElementById('copied-message');
+            copiedMessage.style.display = 'block';
+            setTimeout(function() {
+                copiedMessage.style.display = 'none';
+            }, 2000);
+        }, function(err) {
+            console.error('Could not copy text: ', err);
+        });
     }
 </script>
 </body>
