@@ -18,11 +18,8 @@ input.addEventListener('keydown', function(event) {
         const selectedText = input.value.slice(start, end);
         const wrappedText = event.key + selectedText + {
             '(': ')',
-            ')': '(',
             '[': ']',
-            ']': '[',
             '{': '}',
-            '}': '{'
         }[event.key];
         input.setRangeText(wrappedText, start, end, 'select');
         event.preventDefault();
