@@ -87,3 +87,56 @@ button:hover {
         font-size: 14px;
     }
 }
+
+.scrollable {
+    height: 100px; /* adjust as needed */
+    overflow-y: auto;
+}
+
+#history {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.input {
+    color: darkgray;
+}
+
+.result {
+    display: inline-block;
+    padding: 2px 6px;
+    color: pink;
+    background-color: #f2f2f2;
+    border: 1px solid pink;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.result:hover {
+    background-color: pink;
+    color: #f2f2f2;
+}
+
+@keyframes flash {
+    0%   {background-color: #f2f2f2;}
+    50%  {background-color: yellow;}
+    100% {background-color: #f2f2f2;}
+}
+
+.flash {
+    animation: flash 1s;
+}
+
+#notification {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+}

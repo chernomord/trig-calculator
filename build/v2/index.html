@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Universal Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="styles.css">
   <script crossorigin="anonymous"
           integrity="sha512-VW8/i4IZkHxdD8OlqNdF7fGn3ba0+lYqag+Uy4cG6BtJ/LIr8t23s/vls70pQ41UasHH0tL57GQfKDApqc9izA=="
@@ -9,6 +10,7 @@
 </head>
 <body>
 <div id="container">
+  <div id="history" class="scrollable"></div>
   <form id="calcForm">
     <input id="input" type="text" placeholder="Enter an expression">
     <button type="submit">Calculate</button>
@@ -16,6 +18,7 @@
   </form>
   <div id="result"></div>
 </div>
+<div id="notification"></div>
 <script src="script.js"></script>
 </body>
 </html>
