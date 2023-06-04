@@ -10,6 +10,25 @@ document.getElementById('reset').addEventListener('click', function() {
     document.getElementById('history').textContent = '';
 });
 
+const input = document.getElementById('input');
+input.addEventListener('keydown', function(event) {
+    if (['(', '[', '{'].includes(event.key) && input.selectionStart !== input.selectionEnd) {
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const selectedText = input.value.slice(start, end);
+        const wrappedText = event.key + selectedText + {
+            '(': ')',
+            ')': '(',
+            '[': ']',
+            ']': '[',
+            '{': '}',
+            '}': '{'
+        }[event.key];
+        input.setRangeText(wrappedText, start, end, 'select');
+        event.preventDefault();
+    }
+});
+
 function calculate() {
     var input = document.getElementById('input').value;
     try {

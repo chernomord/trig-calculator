@@ -105,9 +105,9 @@ button:hover {
 .result {
     display: inline-block;
     padding: 2px 6px;
-    color: pink;
+    color: deeppink;
     background-color: #f2f2f2;
-    border: 1px solid pink;
+    border: 1px solid deeppink;
     border-radius: 5px;
     text-decoration: none;
     margin-bottom: 5px;
@@ -116,13 +116,13 @@ button:hover {
 }
 
 .result:hover {
-    background-color: pink;
+    background-color: deeppink;
     color: #f2f2f2;
 }
 
 @keyframes flash {
     0%   {background-color: #f2f2f2;}
-    50%  {background-color: yellow;}
+    50%  {background-color: deeppink;}
     100% {background-color: #f2f2f2;}
 }
 
