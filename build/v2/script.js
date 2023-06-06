@@ -26,6 +26,10 @@ input.addEventListener('keydown', function(event) {
     }
 });
 
+input.addEventListener('input', function(e) {
+    e.target.value = e.target.value.toLowerCase();
+});
+
 function calculate() {
     var input = document.getElementById('input').value;
     try {
