@@ -148,15 +148,9 @@ button:hover {
     align-items: center;
 }
 
-#input, #history {
-    width: 80%;
-}
-
 .button-row {
     display: flex;
     justify-content: space-between;
-    width: 80%;
-    margin: 10px 0;
 }
 
 .function-button {
@@ -165,7 +159,9 @@ button:hover {
     border-radius: 5px;
     background-color: lightgray;
     color: black;
-    font-weight: bold;
+    margin: 0.1em;
+    font-size: 1.4em;
+    font-weight: 300;
 }
 
 .trig-button {
