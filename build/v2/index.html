@@ -12,9 +12,37 @@
 <div id="container">
   <div id="history" class="scrollable"></div>
   <form id="calcForm">
-    <input id="input" type="text" placeholder="Enter an expression">
-    <button type="submit">Calculate</button>
-    <button type="button" id="reset">Reset</button>
+    <input id="input" type="text" autocomplete="off" placeholder="Enter an expression" />
+<!--    <button type="submit">Calculate</button>-->
+<!--    <button type="button" id="reset">Reset</button>-->
+    <div id="buttons">
+      <div class="button-row">
+        <button type="submit" id="calculate">=</button>
+        <button type="button" id="reset">C</button>
+      </div>
+      <div class="button-row">
+        <button type="button" class="function-button trig-button" data-func="sin">sin</button>
+        <button type="button" class="function-button trig-button" data-func="cos">cos</button>
+        <button type="button" class="function-button trig-button" data-func="tan">tan</button>
+      </div>
+      <div class="button-row">
+        <button type="button" class="function-button trig-button" data-func="asin">asin</button>
+        <button type="button" class="function-button trig-button" data-func="acos">acos</button>
+        <button type="button" class="function-button trig-button" data-func="atan">atan</button>
+      </div>
+      <div class="button-row">
+        <button type="button" class="function-button hyperbolic-button" data-func="sinh">sinh</button>
+        <button type="button" class="function-button hyperbolic-button" data-func="cosh">cosh</button>
+        <button type="button" class="function-button hyperbolic-button" data-func="tanh">tanh</button>
+      </div>
+      <div class="button-row">
+        <button type="button" class="function-button" data-func="mod">mod</button>
+        <button type="button" class="function-button" data-func="sqrt">sqrt</button>
+        <button type="button" class="function-button" data-func="log">log</button>
+        <button type="button" class="function-button" data-func="exp">exp</button>
+        <button type="button" class="function-button" data-func="abs">abs</button>
+      </div>
+    </div>
   </form>
   <div id="result"></div>
 </div>

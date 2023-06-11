@@ -1,3 +1,4 @@
+
 @keyframes flash {
     0% {background-color: #fff;}
     50% {background-color: #007BFF; color: #fff;}
@@ -139,4 +140,43 @@ button:hover {
     padding: 5px;
     border-radius: 5px;
     display: none;
+}
+
+#calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#input, #history {
+    width: 80%;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 10px 0;
+}
+
+.function-button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: lightgray;
+    color: black;
+    font-weight: bold;
+}
+
+.trig-button {
+    background-color: lightblue;
+}
+
+.hyperbolic-button {
+    background-color: lightgreen;
+}
+
+#calculate, #reset {
+    background-color: deeppink;
+    color: white;
 }
