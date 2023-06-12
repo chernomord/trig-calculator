@@ -5,11 +5,6 @@ document.getElementById('calcForm').addEventListener('submit', function(event) {
     calculate();
 });
 
-document.getElementById('reset').addEventListener('click', function() {
-    parser.clear();
-    document.getElementById('history').textContent = '';
-});
-
 const input = document.getElementById('input');
 input.addEventListener('keydown', function(event) {
     if (['(', '[', '{'].includes(event.key) && input.selectionStart !== input.selectionEnd) {
@@ -31,12 +26,12 @@ input.addEventListener('input', function(e) {
 });
 
 function calculate() {
-    var input = document.getElementById('input').value;
+    var inputValue = document.getElementById('input').value;
     try {
-        var result = parser.evaluate(input);
+        var result = parser.evaluate(inputValue);
         var history = document.getElementById('history');
         var inputNode = document.createElement("span");
-        inputNode.textContent = input + ' = ';
+        inputNode.textContent = inputValue + ' = ';
         inputNode.className = 'input';
         var resultNode = document.createElement("span");
         resultNode.textContent = result;
@@ -57,6 +52,7 @@ function calculate() {
         document.getElementById('result').textContent = "Invalid expression";
     }
     document.getElementById('history').scrollTop = document.getElementById('history').scrollHeight;
+    document.getElementById('input').value = '';
 }
 
 function notify() {
@@ -66,4 +62,39 @@ function notify() {
     setTimeout(function(){
         notification.style.display = 'none';
     }, 2000);
+}
+
+const buttonsCommandsEnum ={
+    clear() {
+        parser.clear();
+        document.getElementById('history').textContent = '';
+    },
+    sin()   { insertFunction(input, 'sin') },
+    cos(x) { insertFunction(input, 'cos') },
+    tan(x) { insertFunction(input, 'tan') },
+    asin(x) { insertFunction(input, 'asin') },
+    acos(x) { insertFunction(input, 'acos') },
+    atan(x) { insertFunction(input, 'atan') },
+    sqrt(x) { insertFunction(input, 'sqrt') },
+    log(x) { insertFunction(input, 'log') },
+    ln(x) { insertFunction(input, 'ln') },
+    abs(x) { insertFunction(input, 'abs') },
+    exp(x) { insertFunction(input, 'exp') },
+    sinh(x) { insertFunction(input, 'sinh') },
+    cosh(x) { insertFunction(input, 'cosh') },
+    tanh(x) { insertFunction(input, 'tanh') },
+}
+document.getElementById('buttons').addEventListener('click', function(event) {
+    const command = event.target.dataset.func;
+    if (buttonsCommandsEnum.hasOwnProperty(command)) {
+        buttonsCommandsEnum[command]();
+    }
+});
+
+function insertFunction(inputEl, funcName) {
+    const start = inputEl.selectionStart;
+    const end = inputEl.selectionEnd;
+    const selectedText = inputEl.value.slice(start, end);
+    const wrappedText = funcName + '(' + selectedText + ')';
+    inputEl.setRangeText(wrappedText, start, end, 'select');
 }
