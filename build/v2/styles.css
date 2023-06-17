@@ -35,7 +35,6 @@ button {
 }
 input {
     box-sizing: border-box;
-    padding: 10px;
     font-size: 16px;
     width: 100%;
     display: block;
@@ -175,4 +174,49 @@ button:hover {
 #calculate, #reset {
     background-color: deeppink;
     color: white;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 4em;
+}
+
+#input {
+    color: transparent;
+    caret-color: black;
+    margin-bottom: 0;
+}
+
+#input,
+#highlighted {
+    font-size: 1.6em;
+    position: absolute;
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#highlighted {
+    pointer-events: none;
+    border-color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.token.function {
+    color: #D74E42;
+}
+.token.variable {
+    color: #1F61A0;
+}
+.token.number {
+    color: #DAA520;
+}
+.token.operator {
+    color: #795da3;
+}
+.token.parenthesis {
+    color: #333333;
 }

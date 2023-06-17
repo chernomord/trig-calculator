@@ -12,7 +12,10 @@
 <div id="container">
   <div id="history" class="scrollable"></div>
   <form id="calcForm">
-    <input id="input" type="text" autocomplete="off" placeholder="Enter an expression" />
+    <div class="input-container">
+      <input id="input" type="text" autocomplete="off" placeholder="Enter an expression" />
+      <div id="highlighted"></div>
+    </div>
 <!--    <button type="submit">Calculate</button>-->
 <!--    <button type="button" id="reset">Reset</button>-->
     <div id="buttons">
@@ -47,6 +50,6 @@
   <div id="result"></div>
 </div>
 <div id="notification"></div>
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
