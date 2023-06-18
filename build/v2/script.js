@@ -1,11 +1,19 @@
 const parser = math.parser();
 
-function updateCaretPosition() {
+function updateCaretPosition(event) {
     const input = document.getElementById('input');
     const caret = document.getElementById('caret');
 
     // Calculate caret position
-    let caretPos = input.selectionStart;
+    let direction;
+    if (inputField.selectionStart !== inputField.selectionEnd) {
+        direction = (inputField.selectionStart < lastCaretPosition) ? 'ltr' : 'rtl';
+    } else {
+        direction = (inputField.selectionStart >= lastCaretPosition) ? 'ltr' : 'rtl';
+    }
+
+    let caretPos = direction === 'rtl' ? inputField.selectionEnd : inputField.selectionStart;
+    console.log(direction, inputField.selectionEnd, inputField.selectionStart, lastCaretPosition, event?.type);
     let textBeforeCaret = input.value.substring(0, caretPos);
 
     // Create a temporary span to measure the width of the text before the caret
@@ -109,9 +117,14 @@ let caret = document.getElementById('caret');
 
 let lastCaretPosition = 0;
 
-inputField.addEventListener('input', function() {
+inputField.addEventListener('input', updateLastCaretPosition);
+// inputField.addEventListener('click', updateLastCaretPosition);
+// inputField.addEventListener('select', updateLastCaretPosition);
+
+function updateLastCaretPosition(e) {
     lastCaretPosition = inputField.selectionStart;
-});
+    updateCaretPosition(e);
+}
 
 
 inputField.addEventListener("focus", function() {
@@ -129,15 +142,18 @@ inputField.addEventListener('scroll', function() {
     // synchronize the scroll position of the div with the input field
     div.scrollLeft = inputField.scrollLeft;
 });
-inputField.addEventListener('input', updateCaretPosition);
-inputField.addEventListener('click', updateCaretPosition);
-inputField.addEventListener('select', function() {
-    updateCaretPosition();
-});
-inputField.addEventListener('keydown', () => setTimeout(updateCaretPosition, 1));
-inputField.addEventListener('mousedown', () => setTimeout(updateCaretPosition, 1));
-inputField.addEventListener('mouseup', () => setTimeout(updateCaretPosition, 1));
+
+inputField.addEventListener('keydown', () => setTimeout(updateCaretPosition, 0));
 inputField.addEventListener('keyup', updateCaretPosition);
+inputField.addEventListener('mousedown', (e) => {
+    setTimeout(() => {
+        updateLastCaretPosition(e);
+        inputField.addEventListener('mousemove', updateCaretPosition);
+    }, 0)
+});
+inputField.addEventListener('mouseup', () => {
+    inputField.removeEventListener('mousemove', updateCaretPosition);
+});
 
 input.addEventListener('keydown', function(event) {
     if (['(', '[', '{'].includes(event.key) && input.selectionStart !== input.selectionEnd) {
