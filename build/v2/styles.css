@@ -1,3 +1,6 @@
+body * {
+    box-sizing: border-box;
+}
 
 @keyframes flash {
     0% {background-color: #fff;}
@@ -178,31 +181,53 @@ button:hover {
 
 .input-container {
     position: relative;
-    margin-bottom: 4em;
+    margin-bottom: 6em;
 }
 
 #input {
     color: transparent;
-    caret-color: black;
+    /*caret-color: black;*/
     margin-bottom: 0;
 }
 
 #input,
 #highlighted {
-    font-size: 1.6em;
+    font-family: 'Fira Code', monospace;
+    font-size: 2em;
     position: absolute;
-    padding: 10px;
-    border: 1px solid grey;
-    border-radius: 5px;
+    padding: .6em;
+    border: 2px solid transparent;
+    border-radius: .6em;
     box-sizing: border-box;
 }
 
 #highlighted {
+    display: list-item;
     pointer-events: none;
-    border-color: transparent;
     white-space: nowrap;
     overflow: hidden;
     max-width: 100%;
+    min-width: 100%;
+    border-color: rgba(157, 150, 60, 0.18);
+    background-color: rgba(255, 202, 142, 0.26);
+}
+
+.input-mirror {
+    position: absolute;
+    font-family: 'Fira Code', monospace;
+    white-space: pre-wrap;
+    overflow: hidden;
+    color: transparent;
+    min-width: initial;
+}
+
+#caret {
+    display: none;
+    position: absolute;
+    width: 4px;
+    background: orangered;
+    z-index: 100;
+    animation: blink 1s infinite;
 }
 
 .token.function {
@@ -219,4 +244,14 @@ button:hover {
 }
 .token.parenthesis {
     color: #333333;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+#caret.focused {
+    display: inline-block;
 }

@@ -3,12 +3,14 @@
 <head>
   <title>Universal Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css">
   <link rel="stylesheet" type="text/css" href="styles.css">
   <script crossorigin="anonymous"
           integrity="sha512-VW8/i4IZkHxdD8OlqNdF7fGn3ba0+lYqag+Uy4cG6BtJ/LIr8t23s/vls70pQ41UasHH0tL57GQfKDApqc9izA=="
           referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
 </head>
 <body>
+<div id="caret"></div>
 <div id="container">
   <div id="history" class="scrollable"></div>
   <form id="calcForm">
@@ -16,8 +18,6 @@
       <input id="input" type="text" autocomplete="off" placeholder="Enter an expression" />
       <div id="highlighted"></div>
     </div>
-<!--    <button type="submit">Calculate</button>-->
-<!--    <button type="button" id="reset">Reset</button>-->
     <div id="buttons">
       <div class="button-row">
         <button type="submit" id="calculate" class="function-button" data-func="calculate">=</button>

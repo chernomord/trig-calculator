@@ -1,6 +1,44 @@
 const parser = math.parser();
 
-let currentInput = '';
+function updateCaretPosition() {
+    const input = document.getElementById('input');
+    const caret = document.getElementById('caret');
+
+    // Calculate caret position
+    let caretPos = input.selectionStart;
+    let textBeforeCaret = input.value.substring(0, caretPos);
+
+    // Create a temporary span to measure the width of the text before the caret
+    const span = document.createElement('span');
+    span.classList.add('input-mirror');
+
+    // Get the computed style of the input
+    const style = window.getComputedStyle(input);
+    //
+    // // Use the font properties of the input for the span
+    span.style.font = style.font;
+    span.style.letterSpacing = style.letterSpacing;
+    const padding = parseFloat(style.padding);
+
+    // Set the text of the span to the text before the caret
+    span.textContent = textBeforeCaret;
+
+    // Add the span to the body (it won't be visible because we don't specify a position)
+    document.body.appendChild(span);
+
+    // Measure the width of the span
+    const textWidth = span.getBoundingClientRect().width;
+
+    // Remove the temporary span
+    document.body.removeChild(span);
+
+    // Position the caret, adjusted for the input's scroll position
+    caret.style.top = `${input.getBoundingClientRect().top + padding}px`;
+    caret.style.left = `${input.getBoundingClientRect().left + textWidth + padding - input.scrollLeft}px`;
+    caret.style.height = `${parseFloat(style.fontSize) * 1.3}px`;
+}
+
+
 let inputTokens = [];
 
 const functionTokens = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'sqrt', 'log', 'exp', 'abs', 'mod', 'sinh', 'cosh', 'tanh'];
@@ -65,15 +103,42 @@ document.getElementById('calcForm').addEventListener('submit', function(event) {
 
 // select your input field and div
 const inputField = document.querySelector('#input');
-const div = document.querySelector('#highlighted');
+const input = document.getElementById('input');
 
+let caret = document.getElementById('caret');
+
+let lastCaretPosition = 0;
+
+inputField.addEventListener('input', function() {
+    lastCaretPosition = inputField.selectionStart;
+});
+
+
+inputField.addEventListener("focus", function() {
+    caret.classList.add("focused");
+});
+
+inputField.addEventListener("blur", function() {
+    caret.classList.remove("focused");
+});
+
+const div = document.querySelector('#highlighted');
 // add an event listener to your input field
+
 inputField.addEventListener('scroll', function() {
     // synchronize the scroll position of the div with the input field
     div.scrollLeft = inputField.scrollLeft;
 });
+inputField.addEventListener('input', updateCaretPosition);
+inputField.addEventListener('click', updateCaretPosition);
+inputField.addEventListener('select', function() {
+    updateCaretPosition();
+});
+inputField.addEventListener('keydown', () => setTimeout(updateCaretPosition, 1));
+inputField.addEventListener('mousedown', () => setTimeout(updateCaretPosition, 1));
+inputField.addEventListener('mouseup', () => setTimeout(updateCaretPosition, 1));
+inputField.addEventListener('keyup', updateCaretPosition);
 
-const input = document.getElementById('input');
 input.addEventListener('keydown', function(event) {
     if (['(', '[', '{'].includes(event.key) && input.selectionStart !== input.selectionEnd) {
         const start = input.selectionStart;
@@ -93,6 +158,7 @@ input.addEventListener('keydown', function(event) {
 function updateInput(inputValue = '') {
     inputTokens = tokenize(inputValue);
     renderTokenized(inputTokens);
+    updateCaretPosition();
 }
 
 input.addEventListener('input', function(e) {
@@ -148,20 +214,20 @@ const buttonsCommandsEnum ={
         updateInput();
         document.getElementById('history').textContent = '';
     },
-    sin()   { insertFunction(input, 'sin') },
-    cos(x) { insertFunction(input, 'cos') },
-    tan(x) { insertFunction(input, 'tan') },
-    asin(x) { insertFunction(input, 'asin') },
-    acos(x) { insertFunction(input, 'acos') },
-    atan(x) { insertFunction(input, 'atan') },
-    sqrt(x) { insertFunction(input, 'sqrt') },
-    log(x) { insertFunction(input, 'log') },
-    ln(x) { insertFunction(input, 'ln') },
-    abs(x) { insertFunction(input, 'abs') },
-    exp(x) { insertFunction(input, 'exp') },
-    sinh(x) { insertFunction(input, 'sinh') },
-    cosh(x) { insertFunction(input, 'cosh') },
-    tanh(x) { insertFunction(input, 'tanh') },
+    sin()   { insertAroundSelection(input, 'sin') },
+    cos(x) { insertAroundSelection(input, 'cos') },
+    tan(x) { insertAroundSelection(input, 'tan') },
+    asin(x) { insertAroundSelection(input, 'asin') },
+    acos(x) { insertAroundSelection(input, 'acos') },
+    atan(x) { insertAroundSelection(input, 'atan') },
+    sqrt(x) { insertAroundSelection(input, 'sqrt') },
+    log(x) { insertAroundSelection(input, 'log') },
+    ln(x) { insertAroundSelection(input, 'ln') },
+    abs(x) { insertAroundSelection(input, 'abs') },
+    exp(x) { insertAroundSelection(input, 'exp') },
+    sinh(x) { insertAroundSelection(input, 'sinh') },
+    cosh(x) { insertAroundSelection(input, 'cosh') },
+    tanh(x) { insertAroundSelection(input, 'tanh') },
 }
 document.getElementById('buttons').addEventListener('click', function(event) {
     const command = event.target.dataset.func;
@@ -170,7 +236,7 @@ document.getElementById('buttons').addEventListener('click', function(event) {
     }
 });
 
-function insertFunction(inputEl, funcName) {
+function insertAroundSelection(inputEl, funcName) {
     const start = inputEl.selectionStart;
     const end = inputEl.selectionEnd;
     const selectedText = inputEl.value.slice(start, end);
