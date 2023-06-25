@@ -11,9 +11,8 @@ function updateCaretPosition(event) {
     } else {
         direction = (inputField.selectionStart >= lastCaretPosition) ? 'ltr' : 'rtl';
     }
-
     let caretPos = direction === 'rtl' ? inputField.selectionEnd : inputField.selectionStart;
-    console.log(direction, inputField.selectionEnd, inputField.selectionStart, lastCaretPosition, event?.type);
+    console.log(event?.shiftKey, inputField.selectionEnd, inputField.selectionStart, lastCaretPosition, event?.type);
     let textBeforeCaret = input.value.substring(0, caretPos);
 
     // Create a temporary span to measure the width of the text before the caret
@@ -143,15 +142,21 @@ inputField.addEventListener('scroll', function() {
     div.scrollLeft = inputField.scrollLeft;
 });
 
-inputField.addEventListener('keydown', () => setTimeout(updateCaretPosition, 0));
-inputField.addEventListener('keyup', updateCaretPosition);
+inputField.addEventListener('keydown', (e) => setTimeout(() => {
+    updateCaretPosition(e);
+    if (!e.shiftKey) {
+        lastCaretPosition = inputField.selectionStart;
+    }
+}, 0));
+
 inputField.addEventListener('mousedown', (e) => {
     setTimeout(() => {
         updateLastCaretPosition(e);
         inputField.addEventListener('mousemove', updateCaretPosition);
     }, 0)
 });
-inputField.addEventListener('mouseup', () => {
+// document.body
+document.body.addEventListener('mouseup', () => {
     inputField.removeEventListener('mousemove', updateCaretPosition);
 });
 
