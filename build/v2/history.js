@@ -42,6 +42,7 @@ function addHistoryEntry(inputValue, result, historyDiv) {
 
 function clearInput(inputField) {
     inputField.value = '';
+    inputField.dispatchEvent(new Event('input', { cancelable: true,bubbles: true }))
 }
 
 function notify() {
