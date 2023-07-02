@@ -9,8 +9,13 @@ export function setupInput(inputField, caret, outputDiv) {
         setTimeout(updateLastCaretPosition, 0, inputField, event, caret);
     });
 
+    inputField.addEventListener('change', event => {
+        setTimeout(updateLastCaretPosition, 0, inputField, event, caret);
+    });
+
     inputField.addEventListener('keydown', function(event) {
         if (['(', '[', '{'].includes(event.key) && inputField.selectionStart !== inputField.selectionEnd) {
+            console.log('wrap selection', event.key);
             const start = inputField.selectionStart;
             const end = inputField.selectionEnd;
             const selectedText = inputField.value.slice(start, end);
@@ -20,7 +25,7 @@ export function setupInput(inputField, caret, outputDiv) {
                 '{': '}',
             }[event.key];
             inputField.setRangeText(wrappedText, start, end, 'select');
-            updateInput(inputField.value, outputDiv, caret);
+            updateInput(inputField, outputDiv, caret);
             event.preventDefault();
         }
     });
@@ -49,12 +54,13 @@ export function setupInput(inputField, caret, outputDiv) {
     inputField.addEventListener("blur", () => caret.classList.remove("focused"));
 
     window.addEventListener('resize', () => {
-        updateLastCaretPosition(inputField, outputDiv, caret);
+        window.requestAnimationFrame(() => {
+            updateLastCaretPosition(inputField, outputDiv, caret);
+        });
     });
 }
 
 function updateInput(inputField, outputDiv, caret) {
-    console.log('updateInput');
     const tokens = tokenize(inputField.value);
     renderTokenized(tokens, outputDiv);
     updateCaretPosition(inputField, caret);

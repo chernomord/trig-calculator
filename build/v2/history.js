@@ -19,6 +19,12 @@ function calculate(inputField, historyDiv, resultDiv) {
     }
 }
 
+export function clear() {
+    parser.clear();
+    clearInput(document.getElementById('input'));
+    document.getElementById('history').textContent = '';
+}
+
 function addHistoryEntry(inputValue, result, historyDiv) {
     const inputNode = document.createElement("span");
     inputNode.textContent = inputValue + ' = ';

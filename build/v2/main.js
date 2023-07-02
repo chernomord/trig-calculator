@@ -1,5 +1,6 @@
 import { setupInput } from './input.js';
 import { setupHistory } from './history.js';
+import {setupButtons} from './buttons.js';
 
 const inputField = document.getElementById('input');
 const highlighted = document.getElementById('highlighted');
@@ -10,3 +11,4 @@ const resultDiv = document.getElementById('result');
 
 setupInput(inputField, caret, highlighted);
 setupHistory(calcForm, inputField, historyDiv, resultDiv);
+setupButtons(inputField);
