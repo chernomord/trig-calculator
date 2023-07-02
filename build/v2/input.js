@@ -60,7 +60,9 @@ export function setupInput(inputField, caret, outputDiv) {
     });
 
     inputField.addEventListener("focus", () => caret.classList.add("focused"));
-    inputField.addEventListener("blur", () => caret.classList.remove("focused"));
+    inputField.addEventListener("blur", () => {
+        setTimeout(() => caret.classList.remove("focused"), 2);
+    });
 
     window.addEventListener('resize', () => {
         window.requestAnimationFrame(() => {
@@ -90,7 +92,9 @@ function updateCaretPosition(inputField, caret, event) {
         caret.classList.remove('focused');
     } else {
         direction = (inputField.selectionStart >= lastCaretPosition) ? 'ltr' : 'rtl';
-        caret.classList.add('focused');
+        if (document.activeElement === inputField) {
+            caret.classList.add('focused');
+        }
     }
     let caretPos = direction === 'rtl' ? inputField.selectionEnd : inputField.selectionStart;
     let textBeforeCaret = inputField.value.substring(0, caretPos);
