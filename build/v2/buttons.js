@@ -5,7 +5,6 @@ export function setupButtons(inputEl) {
     inputElement = inputEl;
 
     document.getElementById('buttons').addEventListener('click', function(event) {
-        console.log('buttons click', event.target);
         const command = event.target.dataset.func;
         if (buttonsCommandsEnum.hasOwnProperty(command)) {
             buttonsCommandsEnum[command]();
@@ -41,6 +40,6 @@ function insertFunctionAroundSelection(inputEl, funcName) {
     const selectedText = inputEl.value.slice(start, end);
     const wrappedText = funcName + '(' + selectedText + ')';
     inputEl.setRangeText(wrappedText, start, end, 'select');
-    inputEl.dispatchEvent(new Event('input', { cancelable: true,bubbles: true }))
+    inputEl.dispatchEvent(new Event('input', { cancelable: true, bubbles: true }))
     inputEl.focus();
 }

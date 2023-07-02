@@ -15,7 +15,6 @@ export function setupInput(inputField, caret, outputDiv) {
 
     inputField.addEventListener('keydown', function(event) {
         if (['(', '[', '{'].includes(event.key) && inputField.selectionStart !== inputField.selectionEnd) {
-            console.log('wrap selection', event.key);
             const start = inputField.selectionStart;
             const end = inputField.selectionEnd;
             const selectedText = inputField.value.slice(start, end);
@@ -37,13 +36,31 @@ export function setupInput(inputField, caret, outputDiv) {
         }
     });
 
+    const updateCaretPositionOnMouseMove = (e)=> {
+        console.log(e.type, e.buttons);
+        updateCaretPosition(inputField, caret);
+    }
+
     inputField.addEventListener('mousedown', event => {
         setTimeout(updateLastCaretPosition, 0, inputField, event, caret);
-        inputField.addEventListener('mousemove', updateCaretPosition.bind(null, inputField, caret));
+        inputField.addEventListener('mousemove', updateCaretPositionOnMouseMove);
+        // inputField.addEventListener('mousemove', (e) => {
+        //     if (e.buttons === 0) {
+        //         inputField.removeEventListener('mousemove', updateCaretPositionOnMouseMove);
+        //     }
+        //     console.log('mousemove', e.buttons);
+        // })
     });
 
     document.body.addEventListener('mouseup', () => {
-        inputField.removeEventListener('mousemove', updateCaretPosition.bind(null, inputField, caret));
+        console.log('mouseup');
+        updateCaretPosition(inputField, caret)
+        // updatetCaretPosition(inputField, null, caret);
+        inputField.removeEventListener('mousemove', updateCaretPositionOnMouseMove);
+    });
+
+    inputField.addEventListener('mouseup', () => {
+        setTimeout(updateLastCaretPosition, 0, inputField, null, caret);
     });
 
     inputField.addEventListener('scroll', () => {
@@ -58,6 +75,9 @@ export function setupInput(inputField, caret, outputDiv) {
             updateLastCaretPosition(inputField, outputDiv, caret);
         });
     });
+
+    updateLastCaretPosition(inputField, null, caret);
+    inputField.dispatchEvent(new Event('focus', { cancelable: true, bubbles: true }))
 }
 
 function updateInput(inputField, outputDiv, caret) {
