@@ -186,7 +186,7 @@ button:hover {
 
 #input {
     color: transparent;
-    caret-color: black;
+    /*caret-color: black;*/
     margin-bottom: 0;
 }
 

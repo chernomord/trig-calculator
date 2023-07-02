@@ -44,18 +44,10 @@ export function setupInput(inputField, caret, outputDiv) {
     inputField.addEventListener('mousedown', event => {
         setTimeout(updateLastCaretPosition, 0, inputField, event, caret);
         inputField.addEventListener('mousemove', updateCaretPositionOnMouseMove);
-        // inputField.addEventListener('mousemove', (e) => {
-        //     if (e.buttons === 0) {
-        //         inputField.removeEventListener('mousemove', updateCaretPositionOnMouseMove);
-        //     }
-        //     console.log('mousemove', e.buttons);
-        // })
     });
 
     document.body.addEventListener('mouseup', () => {
-        console.log('mouseup');
         updateCaretPosition(inputField, caret)
-        // updatetCaretPosition(inputField, null, caret);
         inputField.removeEventListener('mousemove', updateCaretPositionOnMouseMove);
     });
 
@@ -95,8 +87,10 @@ function updateCaretPosition(inputField, caret, event) {
     let direction;
     if (inputField.selectionStart !== inputField.selectionEnd) {
         direction = (inputField.selectionStart < lastCaretPosition) ? 'ltr' : 'rtl';
+        caret.classList.remove('focused');
     } else {
         direction = (inputField.selectionStart >= lastCaretPosition) ? 'ltr' : 'rtl';
+        caret.classList.add('focused');
     }
     let caretPos = direction === 'rtl' ? inputField.selectionEnd : inputField.selectionStart;
     let textBeforeCaret = inputField.value.substring(0, caretPos);
